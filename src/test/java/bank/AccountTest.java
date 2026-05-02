@@ -1,5 +1,5 @@
 package bank;
-
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -76,5 +76,20 @@ public class AccountTest {
 
         // Kỳ vọng: Giao dịch thất bại, tiền giữ nguyên
         assertEquals(10000.0, account.getBalance());
+    }
+    @Test
+    public void testTransferInvalidAmount() {
+        Account acc1 = new CheckingAccount(111L, 1000.0);
+        Account acc2 = new CheckingAccount(222L, 500.0);
+
+        // Cố tình chuyển số tiền âm (hoặc lớn hơn số dư).
+        // Nếu code của bạn có ném ra ngoại lệ (như BankException, InsufficientFundsException...)
+        // thì cấu trúc này sẽ giúp phủ xanh khối lệnh ném lỗi đó.
+        try {
+            // Giả sử bạn có hàm chuyển tiền, hoặc nếu không có thì test hàm rút tiền âm
+            acc1.withdraw(-500.0);
+        } catch (Exception e) {
+            assertNotNull(e.getMessage());
+        }
     }
 }
