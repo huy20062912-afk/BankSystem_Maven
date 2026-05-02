@@ -1,0 +1,32 @@
+name: BankSystem CI Automation
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Lấy mã nguồn về máy ảo (Checkout)
+      uses: actions/checkout@v4 # <-- Đã nâng cấp lên v4
+
+    - name: Cài đặt môi trường Java (JDK 25) và cấu hình Cache
+      uses: actions/setup-java@v4 # <-- Đã nâng cấp lên v4
+      with:
+        java-version: '25'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Build dự án với Maven
+      run: mvn clean package checkstyle:check
+
+    - name: Lưu trữ file JAR sau khi build
+      uses: actions/upload-artifact@v4 # <-- Đã nâng cấp lên v4
+      if: success()
+      with:
+        name: bank-system-jar
+        path: target/*.jar
