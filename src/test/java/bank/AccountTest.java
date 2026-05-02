@@ -46,17 +46,14 @@ public class AccountTest {
     }
     @Test
     public void testFilePathGeneration() {
-        // Giả lập việc ghép đường dẫn để lưu file dữ liệu khách hàng
         String folder = "bank_data";
         String fileName = "customers.txt";
 
-        // ❌ CỐ TÌNH LÀM SAI: Fix cứng dấu gạch chéo ngược của Windows (\)
-        String hardcodedPath = folder + "\\" + fileName;
+        // ✅ REFACTOR: Dùng File.separator để hệ điều hành tự quyết định dấu gạch
+        String dynamicPath = folder + java.io.File.separator + fileName;
 
-        // Dùng API chuẩn của Java để lấy đường dẫn thực tế theo hệ điều hành máy chủ
         java.nio.file.Path actualPath = java.nio.file.Paths.get(folder, fileName);
 
-        // Kiểm tra xem đường dẫn fix cứng có khớp với đường dẫn thực tế không
-        assertEquals(hardcodedPath, actualPath.toString());
+        assertEquals(dynamicPath, actualPath.toString());
     }
 }
