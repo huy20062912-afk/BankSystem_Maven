@@ -44,4 +44,19 @@ public class AccountTest {
         // Kỳ vọng: Giao dịch thất bại, số dư vẫn phải được bảo toàn là 1000$
         assertEquals(1000.0, account.getBalance());
     }
+    @Test
+    public void testFilePathGeneration() {
+        // Giả lập việc ghép đường dẫn để lưu file dữ liệu khách hàng
+        String folder = "bank_data";
+        String fileName = "customers.txt";
+
+        // ❌ CỐ TÌNH LÀM SAI: Fix cứng dấu gạch chéo ngược của Windows (\)
+        String hardcodedPath = folder + "\\" + fileName;
+
+        // Dùng API chuẩn của Java để lấy đường dẫn thực tế theo hệ điều hành máy chủ
+        java.nio.file.Path actualPath = java.nio.file.Paths.get(folder, fileName);
+
+        // Kiểm tra xem đường dẫn fix cứng có khớp với đường dẫn thực tế không
+        assertEquals(hardcodedPath, actualPath.toString());
+    }
 }
