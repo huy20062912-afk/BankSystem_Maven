@@ -1,0 +1,35 @@
+name: BankSystem CI Automation
+
+# 1. Kích hoạt workflow khi có sự kiện push hoặc pull_request
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Lấy mã nguồn về máy ảo (Checkout)
+      uses: actions/checkout@v3
+
+    - name: Cài đặt môi trường Java (JDK 25) và cấu hình Cache
+      uses: actions/setup-java@v3
+      with:
+        java-version: '25'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    # 2. Thực thi vòng đời Maven (chạy test, đóng gói và kiểm tra Checkstyle)
+    - name: Build dự án với Maven
+      run: mvn clean package checkstyle:check
+
+    # 3. Lưu trữ file .jar (Upload Artifact) nếu build thành công
+    - name: Lưu trữ file JAR sau khi build
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: bank-system-jar
+        path: target/*.jar
