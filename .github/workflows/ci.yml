@@ -28,7 +28,13 @@ jobs:
           cache: 'maven'
 
       - name: Build dự án với Maven
-        run: mvn clean package checkstyle:check
+        run: mvn clean verify checkstyle:check
+               - name: Lưu trữ báo cáo JaCoCo
+               uses: actions/upload-artifact@v4
+               if: always() # Dùng always() để dù build fail (do chưa đủ 80%) vẫn lấy được báo cáo xem thiếu chỗ nào
+               with:
+                 name: jacoco-report-${{ matrix.os }}
+                 path: target/site/jacoco/
 
       - name: Lưu trữ file JAR
         uses: actions/upload-artifact@v4
