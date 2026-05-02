@@ -56,4 +56,25 @@ public class AccountTest {
 
         assertEquals(dynamicPath, actualPath.toString());
     }
+    @Test
+    public void testCheckingAccountWithdrawOverBalance() {
+        Account account = new CheckingAccount(4444L, 500.0);
+
+        // Cố tình rút 1000$ trong khi chỉ có 500$. Hệ thống phải từ chối giao dịch.
+        account.withdraw(1000.0);
+
+        // Kỳ vọng: Số dư vẫn giữ nguyên 500$
+        assertEquals(500.0, account.getBalance());
+    }
+
+    @Test
+    public void testSavingsAccountWithdrawOverLimit() {
+        Account account = new SavingsAccount(5555L, 10000.0);
+
+        // Tiết kiệm thường không cho rút quá 1000$ một lần
+        account.withdraw(2000.0);
+
+        // Kỳ vọng: Giao dịch thất bại, tiền giữ nguyên
+        assertEquals(10000.0, account.getBalance());
+    }
 }
