@@ -138,4 +138,5 @@ public class Customer {
     public String getCustomerInfo() {
         return "Số CMND: " + idNumber + ". Họ tên: " + fullName + ".";
     }
+
 }
