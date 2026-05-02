@@ -17,7 +17,7 @@ public class AccountTest {
         account.deposit(500.0);
 
         // Kỳ vọng: Số dư mới phải là 1500$ (Tham số 1: Kỳ vọng, Tham số 2: Thực tế)
-        assertEquals(9999.0, account.getBalance());
+        assertEquals(1500.0, account.getBalance());
     }
 
     @Test
