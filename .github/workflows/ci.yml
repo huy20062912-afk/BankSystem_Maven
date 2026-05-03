@@ -44,3 +44,12 @@ jobs:
           # Đổi tên artifact để không bị trùng lặp giữa 3 hệ điều hành
           name: bank-system-jar-${{ matrix.os }}
           path: target/*.jar
+
+      - name: Tự động review code và bình luận (Inline Feedback)
+        # Chỉ chạy bot trên máy ubuntu để tránh bot comment 3 lần (do bạn đang dùng Matrix 3 hệ điều hành)
+        # và chỉ chạy khi đây là sự kiện Pull Request
+        if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request' && always()
+        uses: dbelyaev/action-checkstyle@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            reporter: github-pr-review

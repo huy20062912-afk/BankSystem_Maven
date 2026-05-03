@@ -15,6 +15,7 @@ public abstract class Account {
 
     // Khởi tạo Logger cho class Account
     private static final Logger logger = LoggerFactory.getLogger(Account.class);
+    public int Tien_Cua_Toi = 1000; // Sai quy tắc đặt tên camelCase của Java
 
     public static final String CHECKING_TYPE = "CHECKING";
     public static final String SAVINGS_TYPE = "SAVINGS";
