@@ -25,7 +25,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'maven'
+          # cache: 'maven'
 
       - name: Build dự án với Maven
         run: mvn clean verify checkstyle:check
